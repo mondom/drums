@@ -1,17 +1,24 @@
-// const keyA = document.querySelector('.key')
-// const keyA = document.querySelector('[data-number="25"]')
-
-window.addEventListener('keydown', e => {
-	const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
-
+function playSound(e){
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+    
 	if (!audio) return
-	audio.currentTime = 0  
-  
+	audio.currentTime = 0
+    
 	audio.play()
-
+    
 	const key = document.querySelector(`div[data-key="${e.keyCode}"]`)
-
+    
 	key.classList.add('playing')
-})
+}
+
+function removeTransition(e) {
+    if (e.propertyName !== 'transform') return;
+    this.classList.remove('playing')
+}
 
 
+const keys = document.querySelectorAll('.key')
+
+keys.forEach(key => key.addEventListener('transitionend', removeTransition))
+
+window.addEventListener('keydown', playSound)
